@@ -23,4 +23,14 @@
     <string name="sign_out">Sign Out</string>
     <string name="play_error">Can\'t play</string>
     <string name="description_video">Video</string>
+    <string name="create_account">Create account</string>
+    <string name="sign_in_name">Sign In</string>
+    <string name="sign_login">Login</string>
+    <string name="sign_password">Password</string>
+    <string name="sign_up_name">Sign Up</string>
+    <string name="sign_repeat_password">Repeat password</string>
+    <string name="sign_user_name">Login</string>
+    <string name="name">Name</string>
+    <string name="error_login">Authorization error</string>
+    <string name="error_registration">Registration error</string>
 </resources>

@@ -30,6 +30,6 @@ interface UserService {
         @Part("login") login: RequestBody,
         @Part("password") pass: RequestBody,
         @Part("name") name: RequestBody,
-        @Part image: MultipartBody.Part?,
+        @Part file: MultipartBody.Part?,
     ): Response<Token>
 }

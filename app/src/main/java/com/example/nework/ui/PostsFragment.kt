@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.nework.R
 import com.example.nework.adapter.PostAdapter
@@ -36,7 +37,7 @@ class PostsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentPostsBinding.inflate(inflater, container, false)
         val adapter = PostAdapter(object : PostAdapter.OnInteractionListener {
             override fun onImageClick(post: Post) {
@@ -75,25 +76,12 @@ class PostsFragment : Fragment() {
         })
         binding.list.adapter = adapter
 
-//        lifecycleScope.launchWhenCreated {
-//            viewModel.data.collectLatest(adapter::submitData)
-//        }
-        // Актуальный вариант
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.data.collectLatest(adapter::submitData)
             }
         }
 
-//        lifecycleScope.launchWhenCreated {
-//            adapter.loadStateFlow.collectLatest { state ->
-//                binding.swiperefresh.isRefreshing =
-//                    state.refresh is LoadState.Loading ||
-//                    state.prepend is LoadState.Loading ||
-//                    state.append is LoadState.Loading
-//            }
-//        }
-        // Актуальный вариант
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collectLatest { state ->
@@ -106,6 +94,12 @@ class PostsFragment : Fragment() {
         }
 
         binding.swiperefresh.setOnRefreshListener(adapter::refresh)
+
+        binding.fab.setOnClickListener {
+            if (auth.authStateFlow.value.id != 0L)
+//                findNavController().navigate(R.id.action_postsFragment_to_newPostFragment)
+            else findNavController().navigate(R.id.signInFragment)
+        }
 
         return binding.root
     }

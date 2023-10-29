@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
+import androidx.navigation.findNavController
 import com.example.nework.R
 import com.example.nework.auth.AppAuth
 import com.example.nework.viewmodel.AuthViewModel
@@ -41,16 +42,16 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
                 when (menuItem.itemId) {
                     R.id.signin -> {
-//                        findNavController(R.id.nav_host_fragment).navigate(R.id.signInFragment)
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.signInFragment)
                         true
                     }
                     R.id.signup -> {
-//                        findNavController(R.id.nav_host_fragment).navigate(R.id.signUpFragment)
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.signUpFragment)
                         true
                     }
                     R.id.signout -> {
                         auth.removeAuth()
-//                        findNavController(R.id.nav_host_fragment).navigate(R.id.feedFragment)
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.postsFragment)
                         true
                     }
                     else -> false
