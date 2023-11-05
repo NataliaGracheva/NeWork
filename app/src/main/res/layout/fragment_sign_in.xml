@@ -80,6 +80,8 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
+                    android:inputType="textPassword"
+                    app:endIconMode="password_toggle"
                     tools:text="@tools:sample/lorem[0" />
 
             </com.google.android.material.textfield.TextInputLayout>

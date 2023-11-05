@@ -11,7 +11,7 @@ import com.example.nework.api.UserService
 import com.example.nework.dto.Token
 import com.example.nework.enums.AttachmentType
 import com.example.nework.error.ApiError
-import com.example.nework.model.PhotoModel
+import com.example.nework.model.MediaModel
 import com.example.nework.model.StateModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,10 +28,10 @@ class SignUpViewModel @Inject constructor(
 ) : ViewModel() {
     val data = MutableLiveData<Token>()
 
-    private val noPhoto = PhotoModel()
+    private val noPhoto = MediaModel()
 
     private val _photo = MutableLiveData(noPhoto)
-    val photo: LiveData<PhotoModel>
+    val photo: LiveData<MediaModel>
         get() = _photo
 
     private val _dataState = MutableLiveData<StateModel>()
@@ -56,13 +56,13 @@ class SignUpViewModel @Inject constructor(
                         file = media
                     )
                 } else {
-                        apiService.registerUser(
-                            login = login.toRequestBody("text/plain".toMediaType()),
-                            pass = password.toRequestBody("text/plain".toMediaType()),
-                            name = name.toRequestBody("text/plain".toMediaType()),
-                            file = null
-                        )
-                    }
+                    apiService.registerUser(
+                        login = login.toRequestBody("text/plain".toMediaType()),
+                        pass = password.toRequestBody("text/plain".toMediaType()),
+                        name = name.toRequestBody("text/plain".toMediaType()),
+                        file = null
+                    )
+                }
 
                 if (!response.isSuccessful) {
                     Log.d("AUTH", response.message())
@@ -81,6 +81,6 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun changePhoto(uri: Uri?) {
-        _photo.value = PhotoModel(uri, null, AttachmentType.IMAGE)
+        _photo.value = MediaModel(uri, null, AttachmentType.IMAGE)
     }
 }

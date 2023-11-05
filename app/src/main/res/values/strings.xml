@@ -21,7 +21,6 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_out">Sign Out</string>
-    <string name="play_error">Can\'t play</string>
     <string name="description_video">Video</string>
     <string name="create_account">Create account</string>
     <string name="sign_in_name">Sign In</string>
@@ -33,4 +32,8 @@
     <string name="name">Name</string>
     <string name="error_login">Authorization error</string>
     <string name="error_registration">Registration error</string>
+    <string name="description_select_photo">Select photo</string>
+    <string name="description_take_photo">Take photo</string>
+    <string name="description_select_video">Select video</string>
+    <string name="text_new_post">Write something here…</string>
 </resources>

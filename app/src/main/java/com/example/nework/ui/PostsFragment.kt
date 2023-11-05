@@ -19,6 +19,7 @@ import com.example.nework.adapter.PostAdapter
 import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.FragmentPostsBinding
 import com.example.nework.dto.Post
+import com.example.nework.ui.NewPostFragment.Companion.textArg
 import com.example.nework.viewmodel.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -47,10 +48,11 @@ class PostsFragment : Fragment() {
                     intent.setDataAndType(uri, "image/*")
                     startActivity(intent)
                 } catch (e: Exception) {
-                    Toast.makeText(context, R.string.play_error, Toast.LENGTH_SHORT)
+                    Toast.makeText(context, R.string.error_loading, Toast.LENGTH_SHORT)
                         .show()
                 }
             }
+
             override fun onPlayVideo(post: Post) {
                 try {
                     val uri = Uri.parse(post.attachment?.url)
@@ -58,10 +60,11 @@ class PostsFragment : Fragment() {
                     intent.setDataAndType(uri, "video/*")
                     startActivity(intent)
                 } catch (e: Exception) {
-                    Toast.makeText(context, R.string.play_error, Toast.LENGTH_SHORT)
+                    Toast.makeText(context, R.string.error_loading, Toast.LENGTH_SHORT)
                         .show()
                 }
             }
+
             override fun onPlayAudio(post: Post) {
                 try {
                     val uri = Uri.parse(post.attachment?.url)
@@ -69,11 +72,33 @@ class PostsFragment : Fragment() {
                     intent.setDataAndType(uri, "audio/*")
                     startActivity(intent)
                 } catch (e: Exception) {
-                    Toast.makeText(context, R.string.play_error, Toast.LENGTH_SHORT)
+                    Toast.makeText(context, R.string.error_loading, Toast.LENGTH_SHORT)
                         .show()
                 }
             }
+
+            override fun onEdit(post: Post) {
+                viewModel.edit(post)
+                findNavController().navigate(R.id.action_postsFragment_to_newPostFragment,
+                    Bundle().apply {
+                        textArg = post.content
+                    })
+            }
+
+            override fun onLike(post: Post) {
+                if (auth.authStateFlow.value.id != 0L) {
+                    if (!post.likedByMe) viewModel.likeById(post.id)
+                    else viewModel.unlikeById(post.id)
+                } else {
+                    findNavController().navigate(R.id.signInFragment)
+                }
+            }
+
+            override fun onRemove(post: Post) {
+                viewModel.removeById(post.id)
+            }
         })
+
         binding.list.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -87,8 +112,8 @@ class PostsFragment : Fragment() {
                 adapter.loadStateFlow.collectLatest { state ->
                     binding.swiperefresh.isRefreshing =
                         state.refresh is LoadState.Loading ||
-                        state.prepend is LoadState.Loading ||
-                        state.append is LoadState.Loading
+                                state.prepend is LoadState.Loading ||
+                                state.append is LoadState.Loading
                 }
             }
         }
@@ -97,7 +122,7 @@ class PostsFragment : Fragment() {
 
         binding.fab.setOnClickListener {
             if (auth.authStateFlow.value.id != 0L)
-//                findNavController().navigate(R.id.action_postsFragment_to_newPostFragment)
+                findNavController().navigate(R.id.action_postsFragment_to_newPostFragment)
             else findNavController().navigate(R.id.signInFragment)
         }
 

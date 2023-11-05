@@ -1,11 +1,15 @@
 package com.example.nework.api
 
+import com.example.nework.dto.Media
 import com.example.nework.dto.Post
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -38,7 +42,7 @@ interface PostService {
     @DELETE("posts/{id}/likes")
     suspend fun unlikeById(@Path("id") id: Long): Response<Post>
 
-//    @Multipart
-//    @POST("media")
-//    suspend fun uploadMedia(@Part media: MultipartBody.Part): Response<Media>
+    @Multipart
+    @POST("media")
+    suspend fun uploadMedia(@Part media: MultipartBody.Part): Response<Media>
 }

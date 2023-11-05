@@ -23,6 +23,9 @@ class PostAdapter(
         fun onImageClick(post: Post) {}
         fun onPlayVideo(post: Post) {}
         fun onPlayAudio(post: Post) {}
+        fun onEdit(post: Post) {}
+        fun onRemove(post: Post) {}
+        fun onLike(post: Post) {}
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -62,10 +65,13 @@ class PostViewHolder(
                         image.load(post.attachment.url, R.drawable.baseline_broken_image_24)
                         image.visibility = View.VISIBLE
                     }
+
                     AttachmentType.VIDEO -> {
-                        video.setImageResource(R.drawable.baseline_video_file)
+                        video.load(post.attachment.url, R.drawable.baseline_broken_image_24)
+//                        video.setImageResource(R.drawable.baseline_video_file)
                         video.visibility = View.VISIBLE
                     }
+
                     AttachmentType.AUDIO -> {
                         audio.setImageResource(R.drawable.baseline_audio_file)
                         audio.visibility = View.VISIBLE
@@ -79,7 +85,21 @@ class PostViewHolder(
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
                     menu.setGroupVisible(R.id.owned, post.ownedByMe)
+                    setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.remove -> {
+                                onInteractionListener.onRemove(post)
+                                true
+                            }
 
+                            R.id.edit -> {
+                                onInteractionListener.onEdit(post)
+                                true
+                            }
+
+                            else -> false
+                        }
+                    }
                 }.show()
             }
 

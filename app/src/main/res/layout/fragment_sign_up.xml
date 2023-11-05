@@ -47,10 +47,10 @@
                 android:layout_height="@dimen/user_photo_size"
                 android:layout_marginTop="@dimen/common_spacing"
                 android:contentDescription="@string/description_post_author_avatar"
+                android:src="@drawable/baseline_add_a_photo_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_view_sign_up_name"
-                android:src="@drawable/baseline_add_a_photo_24"/>
+                app:layout_constraintTop_toBottomOf="@id/text_view_sign_up_name" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_field_name"
@@ -64,12 +64,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pick_photo">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_field_name"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:importantForAutofill="no"
-                tools:text="Max" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_field_name"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    tools:text="Max" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -100,8 +100,6 @@
                 android:layout_marginTop="@dimen/common_spacing"
                 android:gravity="start|top"
                 android:hint="@string/sign_password"
-                android:inputType="textPassword"
-                app:endIconMode="password_toggle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_field_login">
@@ -111,6 +109,8 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
+                    android:inputType="textPassword"
+                    app:endIconMode="password_toggle"
                     tools:text="Qwerty@123" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -122,8 +122,6 @@
                 android:layout_marginTop="@dimen/common_spacing"
                 android:gravity="start|top"
                 android:hint="@string/sign_repeat_password"
-                android:inputType="textPassword"
-                app:endIconMode="password_toggle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_field_password">
@@ -133,6 +131,8 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
+                    android:inputType="textPassword"
+                    app:endIconMode="password_toggle"
                     tools:text="Qwerty@123" />
 
             </com.google.android.material.textfield.TextInputLayout>

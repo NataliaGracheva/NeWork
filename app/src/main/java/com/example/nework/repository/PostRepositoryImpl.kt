@@ -1,5 +1,6 @@
 package com.example.nework.repository
 
+
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -9,12 +10,18 @@ import com.example.nework.api.PostService
 import com.example.nework.dao.PostDao
 import com.example.nework.dao.PostRemoteKeyDao
 import com.example.nework.db.AppDb
+import com.example.nework.dto.Attachment
+import com.example.nework.dto.Media
+import com.example.nework.dto.MediaUpload
 import com.example.nework.dto.Post
 import com.example.nework.entity.PostEntity
+import com.example.nework.enums.AttachmentType
+import com.example.nework.error.ApiError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-
-
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -32,5 +39,66 @@ class PostRepositoryImpl @Inject constructor(
         remoteMediator = PostRemoteMediator(postService, db, postDao, postRemoteKeyDao),
         pagingSourceFactory = postDao::pagingSource,
     ).flow.map { pagingData ->
-        pagingData.map(PostEntity::toDto) }
+        pagingData.map(PostEntity::toDto)
+    }
+
+    override suspend fun removeById(id: Long) {
+        postDao.removeById(id)
+        val response = postService.removeById(id)
+        if (!response.isSuccessful) {
+            throw ApiError(response.code(), response.message())
+        }
+    }
+
+    override suspend fun likeById(id: Long) {
+        postDao.likeById(id)
+        val response = postService.likeById(id)
+        if (!response.isSuccessful) {
+            throw ApiError(response.code(), response.message())
+        }
+    }
+
+    override suspend fun unlikeById(id: Long) {
+        postDao.unlikeById(id)
+        val response = postService.likeById(id)
+        if (!response.isSuccessful) {
+            throw ApiError(response.code(), response.message())
+        }
+    }
+
+    override suspend fun save(post: Post) {
+        val response = postService.save(post)
+        if (!response.isSuccessful) {
+            throw ApiError(response.code(), response.message())
+        }
+        val body = response.body() ?: throw ApiError(response.code(), response.message())
+        postDao.insert(PostEntity.fromDto(body))
+    }
+
+    override suspend fun saveWithAttachment(post: Post, upload: MediaUpload, type: AttachmentType) {
+        val media = upload(upload)
+        val postWithAttachment =
+            post.copy(attachment = Attachment(media.url, type))
+        val response = postService.save(postWithAttachment)
+        if (!response.isSuccessful) {
+            throw ApiError(response.code(), response.message())
+        }
+        val body = response.body() ?: throw ApiError(response.code(), response.message())
+        postDao.insert(PostEntity.fromDto(body))
+    }
+
+    override suspend fun upload(upload: MediaUpload): Media {
+        val media = MultipartBody.Part.createFormData(
+            "file",
+            "name",
+            upload.byteArray
+                .toRequestBody("*/*".toMediaTypeOrNull())
+        )
+        val response = postService.uploadMedia(media)
+        if (!response.isSuccessful) {
+            throw ApiError(response.code(), response.message())
+        }
+
+        return response.body() ?: throw ApiError(response.code(), response.message())
+    }
 }
