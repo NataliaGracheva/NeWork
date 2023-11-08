@@ -36,4 +36,6 @@
     <string name="description_take_photo">Take photo</string>
     <string name="description_select_video">Select video</string>
     <string name="text_new_post">Write something here…</string>
+    <string name="title_users">Users</string>
+    <string name="title_posts">Posts</string>
 </resources>

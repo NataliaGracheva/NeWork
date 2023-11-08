@@ -43,4 +43,10 @@
         android:name="com.example.nework.ui.NewPostFragment"
         android:label="fragment_new_post"
         tools:layout="@layout/fragment_new_post" />
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.example.nework.ui.UsersFragment"
+        android:label="fragment_users"
+        tools:layout="@layout/fragment_users" />
+
 </navigation>

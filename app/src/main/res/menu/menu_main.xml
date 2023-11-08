@@ -17,5 +17,16 @@
             android:title="@string/sign_out"
             app:showAsAction="never" />
     </group>
+    <group android:id="@+id/all">
+        <item
+            android:id="@+id/posts"
+            android:title="Posts"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/users"
+            android:title="Users"
+            app:showAsAction="never" />
+    </group>
+
 </menu>
 

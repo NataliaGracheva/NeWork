@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="@dimen/posts_avatar_size"
-            android:layout_height="@dimen/posts_avatar_size"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
             android:layout_marginBottom="@dimen/common_spacing"
             android:contentDescription="@string/description_post_author_avatar"
             app:layout_constraintBottom_toBottomOf="@id/header"

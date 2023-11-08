@@ -36,6 +36,7 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                 menu.let {
                     it.setGroupVisible(R.id.unauthenticated, !viewModel.authenticated)
                     it.setGroupVisible(R.id.authenticated, viewModel.authenticated)
+                    it.setGroupVisible(R.id.all, true)
                 }
             }
 
@@ -45,18 +46,50 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                         findNavController(R.id.nav_host_fragment).navigate(R.id.signInFragment)
                         true
                     }
+
                     R.id.signup -> {
                         findNavController(R.id.nav_host_fragment).navigate(R.id.signUpFragment)
                         true
                     }
+
                     R.id.signout -> {
                         auth.removeAuth()
                         findNavController(R.id.nav_host_fragment).navigate(R.id.postsFragment)
                         true
                     }
+
+                    R.id.posts -> {
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.postsFragment)
+                        true
+                    }
+
+                    R.id.users -> {
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.usersFragment)
+                        true
+                    }
+
                     else -> false
                 }
         })
+
+        // todo - разобраться, почему переключение не работает
+//        NavigationBarView.OnItemReselectedListener { item ->
+//            when(item.itemId) {
+//                R.id.nav_posts -> {
+//                    findNavController(R.id.nav_host_fragment).navigate(R.id.postsFragment)
+//                    Log.d("posts", "posts")
+//                    true
+//                }
+//                R.id.nav_users -> {
+//                    findNavController(R.id.nav_host_fragment).navigate(R.id.usersFragment)
+//                    Log.d("users", "users")
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
+
+
     }
 
 //    private fun requestNotificationsPermission() {
