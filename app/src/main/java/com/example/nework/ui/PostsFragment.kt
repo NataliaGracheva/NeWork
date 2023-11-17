@@ -97,6 +97,15 @@ class PostsFragment : Fragment() {
             override fun onRemove(post: Post) {
                 viewModel.removeById(post.id)
             }
+
+            override fun onAvatarClick(post: Post) {
+                findNavController().navigate(R.id.profileFragment,
+                    Bundle().apply {
+                        putLong("id", post.authorId)
+                        putString("avatar", post.authorAvatar)
+                        putString("name", post.author)
+                    })
+            }
         })
 
         binding.list.adapter = adapter

@@ -1,7 +1,6 @@
 package com.example.nework.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,7 @@ class UsersFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentUsersBinding.inflate(
             inflater,
             container,
@@ -32,18 +31,22 @@ class UsersFragment : Fragment() {
 
         val adapter = UserAdapter(object : OnUserInteractionListener {
             override fun openProfile(user: User) {
-                Log.d("Users", "open profile")
-//                findNavController().navigate(R.id.)
+                findNavController().navigate(R.id.profileFragment,
+                    Bundle().apply {
+                        putLong("id", user.id)
+                        putString("avatar", user.avatar)
+                        putString("name", user.name)
+                    })
             }
         })
-                binding.fragmentListUsers.adapter = adapter
+        binding.fragmentListUsers.adapter = adapter
 
-                viewModel.data.observe(viewLifecycleOwner)
-                {
-                    adapter.submitList(it)
-                }
+        viewModel.data.observe(viewLifecycleOwner)
+        {
+            adapter.submitList(it)
+        }
 
-                viewModel.dataState.observe(viewLifecycleOwner)
+        viewModel.dataState.observe(viewLifecycleOwner)
         {
             when {
                 it.error -> {
@@ -53,6 +56,6 @@ class UsersFragment : Fragment() {
             }
             binding.progressBarFragmentUsers.isVisible = it.loading
         }
-            return binding.root
+        return binding.root
     }
 }

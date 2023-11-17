@@ -18,4 +18,10 @@ object DaoModule {
 
     @Provides
     fun provideUserDao(db: AppDb): UserDao = db.userDao()
+
+    @Provides
+    fun provideJobDao(db: AppDb): JobDao = db.jobDao()
+
+    @Provides
+    fun provideUserWallDao(db: AppDb): UserWallDao = db.userWallDao()
 }

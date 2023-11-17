@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nework.R
 import com.example.nework.databinding.CardPostBinding
@@ -15,9 +15,9 @@ import com.example.nework.view.load
 import com.example.nework.view.loadCircleCrop
 
 
-class PostAdapter(
+class UserPostAdapter(
     private val onInteractionListener: OnInteractionListener,
-) : PagingDataAdapter<Post, PostViewHolder>(PostDiffCallback()) {
+) : ListAdapter<Post, UserPostViewHolder>(UserPostDiffCallback()) {
 
     interface OnInteractionListener {
         fun onImageClick(post: Post) {}
@@ -26,27 +26,25 @@ class PostAdapter(
         fun onEdit(post: Post) {}
         fun onRemove(post: Post) {}
         fun onLike(post: Post) {}
-        fun onAvatarClick(post: Post) {
-        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        return PostViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserPostViewHolder {
+        return UserPostViewHolder(
             CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             onInteractionListener
         )
     }
 
-    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UserPostViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
         }
     }
 }
 
-class PostViewHolder(
+class UserPostViewHolder(
     private val binding: CardPostBinding,
-    private val onInteractionListener: PostAdapter.OnInteractionListener,
+    private val onInteractionListener: UserPostAdapter.OnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(post: Post) {
@@ -116,15 +114,11 @@ class PostViewHolder(
             audio.setOnClickListener {
                 onInteractionListener.onPlayAudio(post)
             }
-
-            avatar.setOnClickListener {
-                onInteractionListener.onAvatarClick(post)
-            }
         }
     }
 }
 
-class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
+class UserPostDiffCallback : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
         if (oldItem::class != newItem::class) {
             return false

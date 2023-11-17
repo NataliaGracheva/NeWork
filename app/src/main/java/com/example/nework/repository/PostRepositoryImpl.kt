@@ -60,7 +60,7 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun unlikeById(id: Long) {
         postDao.unlikeById(id)
-        val response = postService.likeById(id)
+        val response = postService.unlikeById(id)
         if (!response.isSuccessful) {
             throw ApiError(response.code(), response.message())
         }

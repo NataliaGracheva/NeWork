@@ -38,4 +38,12 @@
     <string name="text_new_post">Write something here…</string>
     <string name="title_users">Users</string>
     <string name="title_posts">Posts</string>
+    <string name="title_jobs">Jobs</string>
+    <string name="text_job_name">Company</string>
+    <string name="text_job_position">Position</string>
+    <string name="text_job_start">Start date</string>
+    <string name="text_job_finish">End Date</string>
+    <string name="text_job_link">Link</string>
+    <string name="text_job_now">Till now</string>
+    <string name="empty_jobs">There are no jobs here...</string>
 </resources>

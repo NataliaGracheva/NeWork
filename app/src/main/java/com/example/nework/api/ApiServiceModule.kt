@@ -36,6 +36,16 @@ class ApiServiceModule {
 
     @Provides
     @Singleton
+    fun provideJobService(retrofit: Retrofit): JobService =
+        retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideWallService(retrofit: Retrofit): WallService =
+        retrofit.create()
+
+    @Provides
+    @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(BASE_URL)
