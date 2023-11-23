@@ -68,6 +68,11 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                         true
                     }
 
+                    R.id.events -> {
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.eventsFragment)
+                        true
+                    }
+
                     else -> false
                 }
         })

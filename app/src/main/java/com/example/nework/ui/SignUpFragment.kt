@@ -60,7 +60,7 @@ class SignUpFragment: Fragment() {
                     ) {
                         Toast.makeText(
                             activity,
-                            "the field is required",
+                            "All fields are required",
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {

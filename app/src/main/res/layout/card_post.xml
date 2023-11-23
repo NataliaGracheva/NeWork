@@ -89,7 +89,8 @@
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/content"
-            tools:srcCompat="@sample/posts.json/data/authorAvatar" />
+            tools:srcCompat="@sample/posts.json/data/authorAvatar"
+            tools:visibility="visible"/>
 
         <ImageView
             android:id="@+id/video"

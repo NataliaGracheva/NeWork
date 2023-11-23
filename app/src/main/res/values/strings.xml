@@ -45,5 +45,17 @@
     <string name="text_job_finish">End Date</string>
     <string name="text_job_link">Link</string>
     <string name="text_job_now">Till now</string>
-    <string name="empty_jobs">There are no jobs here...</string>
+    <string name="empty_jobs">There are no jobs here…</string>
+    <string name="description_event_author_avatar">Author avatar</string>
+    <string name="description_event_attachment">Attachment</string>
+    <string name="text_event_date">Event date</string>
+    <string name="empty_events">There are no events here…</string>
+    <string name="add_event">Add event</string>
+    <string name="description_event_menu">Event menu</string>
+    <string name="description_event_like">Like event</string>
+    <string name="description_event_participate">Take part</string>
+    <string name="description_pick_video">Select video</string>
+    <string name="enter_datetime">Enter datetime</string>
+    <string name="offline">Offline</string>
+    <string name="online">Online</string>
 </resources>

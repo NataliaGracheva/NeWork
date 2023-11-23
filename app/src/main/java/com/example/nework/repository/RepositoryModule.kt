@@ -24,4 +24,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindWallRepository(impl: WallRepositoryImpl): WallRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindEventRepository(impl: EventRepositoryImpl): EventRepository
 }

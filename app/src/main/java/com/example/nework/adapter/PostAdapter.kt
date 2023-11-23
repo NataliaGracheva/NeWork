@@ -69,8 +69,7 @@ class PostViewHolder(
                     }
 
                     AttachmentType.VIDEO -> {
-                        video.load(post.attachment.url, R.drawable.baseline_broken_image_24)
-//                        video.setImageResource(R.drawable.baseline_video_file)
+                        video.load(post.attachment.url, R.drawable.baseline_video_file)
                         video.visibility = View.VISIBLE
                     }
 
@@ -103,6 +102,10 @@ class PostViewHolder(
                         }
                     }
                 }.show()
+            }
+
+            like.setOnClickListener {
+                onInteractionListener.onLike(post)
             }
 
             image.setOnClickListener {

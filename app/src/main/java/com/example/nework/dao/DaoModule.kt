@@ -24,4 +24,10 @@ object DaoModule {
 
     @Provides
     fun provideUserWallDao(db: AppDb): UserWallDao = db.userWallDao()
+
+    @Provides
+    fun provideEventDao(db: AppDb): EventDao = db.eventDao()
+
+    @Provides
+    fun provideEvenRemoteKeyDao(db: AppDb): EventRemoteKeyDao = db.eventRemoteKeyDao()
 }

@@ -26,6 +26,10 @@
             android:id="@+id/users"
             android:title="Users"
             app:showAsAction="never" />
+        <item
+            android:id="@+id/events"
+            android:title="Events"
+            app:showAsAction="never" />
     </group>
 
 </menu>

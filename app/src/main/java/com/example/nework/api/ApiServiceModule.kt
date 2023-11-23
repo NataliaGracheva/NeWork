@@ -28,6 +28,11 @@ class ApiServiceModule {
     fun providePostService(retrofit: Retrofit): PostService =
         retrofit.create()
 
+    @Provides
+    @Singleton
+    fun provideMediaService(retrofit: Retrofit): MediaService =
+        retrofit.create()
+
 
     @Provides
     @Singleton
@@ -42,6 +47,11 @@ class ApiServiceModule {
     @Provides
     @Singleton
     fun provideWallService(retrofit: Retrofit): WallService =
+        retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideEventService(retrofit: Retrofit): EventService =
         retrofit.create()
 
     @Provides
