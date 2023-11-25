@@ -14,6 +14,31 @@ import com.example.nework.dto.Event
 import com.example.nework.enums.AttachmentType
 import com.example.nework.view.load
 import com.example.nework.view.loadCircleCrop
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+private val Event.publishedFormatted: String
+    get() {
+        val now = LocalDateTime.now()
+        val yesterdayDateTime = now.minusDays(1)
+        val datetime = LocalDateTime.parse(published, DateTimeFormatter.ISO_DATE_TIME)
+        return when {
+            datetime.year == now.year && datetime.dayOfYear == now.dayOfYear ->
+                "today at ${datetime.format(DateTimeFormatter.ofPattern("HH:MM"))}"
+
+            datetime.year == yesterdayDateTime.year && datetime.dayOfYear == yesterdayDateTime.dayOfYear ->
+                "yesterday at ${datetime.format(DateTimeFormatter.ofPattern("HH:mm"))}"
+
+            datetime.year < yesterdayDateTime.year || (datetime.year <= yesterdayDateTime.year && datetime.dayOfYear < yesterdayDateTime.dayOfYear) ->
+                "${datetime.format(DateTimeFormatter.ofPattern("dd.MM"))} at ${
+                    datetime.format(
+                        DateTimeFormatter.ofPattern("HH:mm")
+                    )
+                }"
+
+            else -> published
+        }
+    }
 
 class EventAdapter(
     private val onInteractionListener: OnInteractionListener,
@@ -35,7 +60,8 @@ class EventAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         return EventViewHolder(
             CardEventBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            onInteractionListener)
+            onInteractionListener
+        )
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
@@ -59,7 +85,7 @@ class EventViewHolder(
             )
             else eventAuthorAvatar.setImageResource(R.drawable.baseline_account_circle_24)
             eventAuthor.text = event.author
-            eventPublished.text = event.published
+            eventPublished.text = event.publishedFormatted
             eventContent.text = event.content
             datetime.text = event.datetime
 //            checkboxSpeakersSumCardEvent.text = event.speakerIds.count().toString()
@@ -71,7 +97,10 @@ class EventViewHolder(
             if (event.attachment != null) {
                 when (event.attachment.type) {
                     AttachmentType.IMAGE -> {
-                        eventAttachment.load(event.attachment.url, R.drawable.baseline_broken_image_24)
+                        eventAttachment.load(
+                            event.attachment.url,
+                            R.drawable.baseline_broken_image_24
+                        )
                         eventAttachment.visibility = View.VISIBLE
                     }
 
@@ -98,10 +127,12 @@ class EventViewHolder(
                                 onInteractionListener.onRemove(event)
                                 true
                             }
+
                             R.id.edit -> {
                                 onInteractionListener.onEdit(event)
                                 true
                             }
+
                             else -> false
                         }
                     }
