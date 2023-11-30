@@ -1,7 +1,6 @@
 package com.example.nework.repository
 
 import androidx.paging.PagingData
-import com.example.nework.dto.Media
 import com.example.nework.dto.MediaUpload
 import com.example.nework.dto.Post
 import com.example.nework.enums.AttachmentType
@@ -18,7 +17,5 @@ interface PostRepository {
         upload: MediaUpload,
         type: AttachmentType,
     )
-
-    suspend fun upload(upload: MediaUpload): Media
 
 }

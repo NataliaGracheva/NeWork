@@ -79,6 +79,9 @@ class PostsFragment : Fragment() {
 
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
+                post.attachment?.let {
+                    viewModel.changeMedia(Uri.parse(it.url), null, it.type)
+                }
                 findNavController().navigate(R.id.action_postsFragment_to_newPostFragment,
                     Bundle().apply {
                         textArg = post.content

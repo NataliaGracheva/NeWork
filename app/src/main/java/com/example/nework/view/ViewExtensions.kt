@@ -1,10 +1,17 @@
 package com.example.nework.view
 
+import android.app.DatePickerDialog
+import android.content.Context
 import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 fun ImageView.load(
     url: String,
@@ -36,3 +43,30 @@ fun ImageView.load(
         .timeout(10_000)
         .transform(*transforms)
         .into(this)
+
+fun TextInputEditText.pickDate(context: Context) {
+    val calendar = Calendar.getInstance()
+    val datePicker = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+        calendar[Calendar.YEAR] = year
+        calendar[Calendar.MONTH] = monthOfYear
+        calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
+
+        this.setText(
+            SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
+                .format(calendar.time)
+        )
+    }
+
+    DatePickerDialog(
+        context,
+        datePicker,
+        calendar[Calendar.YEAR],
+        calendar[Calendar.MONTH],
+        calendar[Calendar.DAY_OF_MONTH]
+    )
+        .show()
+}
+
+fun TextInputLayout.markRequired() {
+    hint = "$hint *"
+}

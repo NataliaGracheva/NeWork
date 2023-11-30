@@ -73,6 +73,16 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                         true
                     }
 
+                    R.id.profile -> {
+                        if (viewModel.authenticated) {
+                            findNavController(R.id.nav_host_fragment).navigate(R.id.profileFragment,
+                                Bundle().apply {
+                                    putLong("id", auth.authStateFlow.value.id)
+                                })
+                        }
+                        true
+                    }
+
                     else -> false
                 }
         })

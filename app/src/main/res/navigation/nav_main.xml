@@ -48,16 +48,12 @@
         android:name="com.example.nework.ui.UsersFragment"
         android:label="fragment_users"
         tools:layout="@layout/fragment_users" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.nework.ui.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+
     <fragment
         android:id="@+id/eventsFragment"
         android:name="com.example.nework.ui.EventsFragment"
         android:label="fragment_events"
-        tools:layout="@layout/fragment_events" >
+        tools:layout="@layout/fragment_events">
         <action
             android:id="@+id/action_eventsFragment_to_newEventFragment"
             app:destination="@id/newEventFragment" />
@@ -67,5 +63,37 @@
         android:name="com.example.nework.ui.NewEventFragment"
         android:label="fragment_new_event"
         tools:layout="@layout/fragment_new_event" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.nework.ui.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_wallFragment_to_newPostFragment"
+            app:destination="@id/newPostFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_jobsFragment_to_newJobFragment"
+            app:destination="@id/newJobFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wallFragment"
+        android:name="com.example.nework.ui.WallFragment"
+        android:label="fragment_wall"
+        tools:layout="@layout/fragment_posts" />
+
+    <fragment
+        android:id="@+id/jobsFragment"
+        android:name="com.example.nework.ui.JobsFragment"
+        android:label="fragment_jobs"
+        tools:layout="@layout/fragment_jobs" />
+    <fragment
+        android:id="@+id/newJobFragment"
+        android:name="com.example.nework.ui.NewJobFragment"
+        android:label="fragment_new_job"
+        tools:layout="@layout/fragment_new_job" />
 
 </navigation>

@@ -3,6 +3,7 @@ package com.example.nework.repository
 import com.example.nework.api.JobService
 import com.example.nework.dao.JobDao
 import com.example.nework.dto.Job
+import com.example.nework.entity.JobEntity
 import com.example.nework.entity.toDto
 import com.example.nework.entity.toJobEntity
 import com.example.nework.error.ApiError
@@ -29,5 +30,22 @@ class JobRepositoryImpl @Inject constructor(
         }
         val body = response.body() ?: throw ApiError(response.code(), response.message())
         dao.insert(body.toJobEntity())
+    }
+
+    override suspend fun save(job: Job) {
+        val response = apiService.saveJob(job)
+        if (!response.isSuccessful) {
+            throw ApiError(response.code(), response.message())
+        }
+        val body = response.body() ?: throw ApiError(response.code(), response.message())
+        dao.insert(JobEntity.fromDto(body))
+    }
+
+    override suspend fun removeById(id: Long) {
+        val response = apiService.removeById(id)
+        if (!response.isSuccessful) {
+            throw ApiError(response.code(), response.message())
+        }
+        dao.removeById(id)
     }
 }

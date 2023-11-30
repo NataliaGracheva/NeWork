@@ -2,13 +2,11 @@ package com.example.nework.ui
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -61,7 +59,6 @@ class EventsFragment : Fragment() {
                 }
             }
 
-            @RequiresApi(Build.VERSION_CODES.O)
             override fun onEdit(event: Event) {
                 viewModel.edit(event)
                 event.attachment?.let {
@@ -150,13 +147,11 @@ class EventsFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun getDate(datetime: String): String {
         val localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ISO_DATE_TIME)
         return localDateTime.format(DateTimeFormatter.ISO_DATE)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun getTime(datetime: String): String {
         val localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ISO_DATE_TIME)
         return localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))

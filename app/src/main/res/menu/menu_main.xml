@@ -16,6 +16,10 @@
             android:id="@+id/signout"
             android:title="@string/sign_out"
             app:showAsAction="never" />
+        <item
+            android:id="@+id/profile"
+            android:title="My profile"
+            app:showAsAction="never" />
     </group>
     <group android:id="@+id/all">
         <item

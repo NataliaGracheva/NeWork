@@ -45,11 +45,11 @@ class PostRepositoryImpl @Inject constructor(
     }
 
     override suspend fun removeById(id: Long) {
-        postDao.removeById(id)
         val response = postService.removeById(id)
         if (!response.isSuccessful) {
             throw ApiError(response.code(), response.message())
         }
+        postDao.removeById(id)
     }
 
     override suspend fun likeById(id: Long) {
@@ -58,6 +58,8 @@ class PostRepositoryImpl @Inject constructor(
         if (!response.isSuccessful) {
             throw ApiError(response.code(), response.message())
         }
+        val body = response.body() ?: throw ApiError(response.code(), response.message())
+        postDao.insert(PostEntity.fromDto(body))
     }
 
     override suspend fun unlikeById(id: Long) {
@@ -66,6 +68,8 @@ class PostRepositoryImpl @Inject constructor(
         if (!response.isSuccessful) {
             throw ApiError(response.code(), response.message())
         }
+        val body = response.body() ?: throw ApiError(response.code(), response.message())
+        postDao.insert(PostEntity.fromDto(body))
     }
 
     override suspend fun save(post: Post) {
@@ -89,7 +93,7 @@ class PostRepositoryImpl @Inject constructor(
         postDao.insert(PostEntity.fromDto(body))
     }
 
-    override suspend fun upload(upload: MediaUpload): Media {
+    private suspend fun upload(upload: MediaUpload): Media {
         val media = MultipartBody.Part.createFormData(
             "file",
             "name",
@@ -100,7 +104,6 @@ class PostRepositoryImpl @Inject constructor(
         if (!response.isSuccessful) {
             throw ApiError(response.code(), response.message())
         }
-
         return response.body() ?: throw ApiError(response.code(), response.message())
     }
 }

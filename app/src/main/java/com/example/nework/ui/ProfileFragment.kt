@@ -10,7 +10,7 @@ import com.example.nework.R
 import com.example.nework.adapter.ProfileAdapter
 import com.example.nework.databinding.FragmentProfileBinding
 import com.example.nework.view.loadCircleCrop
-import com.example.nework.viewmodel.AuthViewModel
+import com.example.nework.viewmodel.UserViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,7 +19,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
-    private val authViewModel by activityViewModels<AuthViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
 
     private val profileTitles = arrayOf(
         R.string.title_posts,
@@ -40,8 +40,9 @@ class ProfileFragment : Fragment() {
         val viewPagerProfile = binding.viewPagerFragmentProfile
         val tabLayoutProfile = binding.tabLayoutFragmentProfile
         val id = arguments?.getLong("id")
-        val avatar = arguments?.getString("avatar")
-        val name = arguments?.getString("name")
+        if (id != null) {
+            userViewModel.getUser(id)
+        }
 
         viewPagerProfile.adapter = ProfileAdapter(this)
 
@@ -49,18 +50,17 @@ class ProfileFragment : Fragment() {
             tab.text = getString(profileTitles[position])
         }.attach()
 
-        with(binding) {
-            textViewUserNameFragmentProfile.text = name?.removeSurrounding("\"")
-            if (avatar != null) {
-                imageViewUserAvatarFragmentProfile.loadCircleCrop(avatar, R.drawable.baseline_account_circle_24)
-            } else {
-                imageViewUserAvatarFragmentProfile.setImageResource(R.drawable.baseline_account_circle_24)
-            }
-        }
-
-        authViewModel.data.observe(viewLifecycleOwner) {
-            if (authViewModel.authenticated && id == it.id) {
-                // todo - add actions
+        userViewModel.user.observe(viewLifecycleOwner) {
+            with(binding) {
+                textViewUserNameFragmentProfile.text = it.name.removeSurrounding("\"")
+                if (it.avatar != null) {
+                    imageViewUserAvatarFragmentProfile.loadCircleCrop(
+                        it.avatar,
+                        R.drawable.baseline_account_circle_24
+                    )
+                } else {
+                    imageViewUserAvatarFragmentProfile.setImageResource(R.drawable.baseline_account_circle_24)
+                }
             }
         }
 

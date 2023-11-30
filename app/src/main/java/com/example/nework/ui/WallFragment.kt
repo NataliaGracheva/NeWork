@@ -11,12 +11,16 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.adapter.UserPostAdapter
 import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.FragmentPostsBinding
 import com.example.nework.dto.Post
+import com.example.nework.ui.NewPostFragment.Companion.textArg
+import com.example.nework.viewmodel.PostViewModel
 import com.example.nework.viewmodel.WallViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,7 +30,8 @@ class WallFragment : Fragment() {
     @Inject
     lateinit var auth: AppAuth
 
-    private val viewModel:WallViewModel by activityViewModels()
+    private val viewModel: WallViewModel by activityViewModels()
+    private val postViewModel: PostViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +39,10 @@ class WallFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentPostsBinding.inflate(inflater, container, false)
-        val adapter = UserPostAdapter(object : UserPostAdapter.OnInteractionListener {
+        val id = parentFragment?.arguments?.getLong("id")
+        val ownedByMe = auth.authStateFlow.value.id == id
+
+        val adapter = UserPostAdapter(ownedByMe, object : UserPostAdapter.OnInteractionListener {
             override fun onImageClick(post: Post) {
                 try {
                     val uri = Uri.parse(post.attachment?.url)
@@ -71,29 +79,30 @@ class WallFragment : Fragment() {
                 }
             }
 
-//            override fun onEdit(post: Post) {
-//                viewModel.edit(post)
-//                findNavController().navigate(R.id.action_postsFragment_to_newPostFragment,
-//                    Bundle().apply {
-//                        textArg = post.content
-//                    })
-//            }
+            override fun onEdit(post: Post) {
+                postViewModel.edit(post)
+                post.attachment?.let {
+                    postViewModel.changeMedia(Uri.parse(it.url), null, it.type)
+                }
+                findNavController().navigate(R.id.action_wallFragment_to_newPostFragment,
+                    Bundle().apply {
+                        textArg = post.content
+                    })
+            }
 
-//            override fun onLike(post: Post) {
-//                if (auth.authStateFlow.value.id != 0L) {
-//                    if (!post.likedByMe) viewModel.likeById(post.id)
-//                    else viewModel.unlikeById(post.id)
-//                } else {
-//                    findNavController().navigate(R.id.signInFragment)
-//                }
-//            }
+            override fun onLike(post: Post) {
+                if (auth.authStateFlow.value.id != 0L) {
+                    if (!post.likedByMe) viewModel.likeById(post.id)
+                    else viewModel.unlikeById(post.id)
+                } else {
+                    findNavController().navigate(R.id.signInFragment)
+                }
+            }
 
-//            override fun onRemove(post: Post) {
-//                viewModel.removeById(post.id)
-//            }
+            override fun onRemove(post: Post) {
+                viewModel.removeById(post.id)
+            }
         })
-
-        val id = parentFragment?.arguments?.getLong("id")
 
         binding.list.adapter = adapter
 
@@ -108,14 +117,30 @@ class WallFragment : Fragment() {
             binding.emptyText.isVisible = it.isEmpty()
         }
 
-        viewModel.dataState.observe(viewLifecycleOwner) {
-            when {
-                it.error -> {
-                    Toast.makeText(context, R.string.error_loading, Toast.LENGTH_SHORT)
-                        .show()
-                }
+        viewModel.dataState.observe(viewLifecycleOwner) { state ->
+            binding.progress.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.refreshing
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_loading) {
+                        if (id != null) {
+                            viewModel.loadUserWall(id)
+                        }
+                    }
+                    .show()
             }
-            binding.progress.isVisible = it.loading
+        }
+
+        binding.swiperefresh.setOnRefreshListener {
+            if (id != null) {
+                viewModel.loadUserWall(id)
+            }
+        }
+
+        binding.fab.isVisible = ownedByMe
+
+        binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.action_wallFragment_to_newPostFragment)
         }
 
         return binding.root

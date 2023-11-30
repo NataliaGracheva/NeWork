@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.nework.entity.PostEntity
 
 
@@ -30,4 +31,7 @@ interface PostDao {
 
     @Query("UPDATE PostEntity SET likedByMe = 0 WHERE id = :id AND likedByMe = 1")
     suspend fun unlikeById(id: Long)
+
+    @Update(PostEntity::class)
+    suspend fun update(post: PostEntity)
 }

@@ -3,7 +3,6 @@ package com.example.nework.repository
 
 import com.example.nework.api.UserService
 import com.example.nework.dao.UserDao
-import com.example.nework.db.AppDb
 import com.example.nework.dto.User
 import com.example.nework.entity.toDto
 import com.example.nework.entity.toUserEntity
@@ -18,7 +17,6 @@ import javax.inject.Singleton
 @Singleton
 class UserRepositoryImpl @Inject constructor(
     private val userService: UserService,
-    db: AppDb,
     private val userDao: UserDao,
 ) :
     UserRepository {
@@ -28,11 +26,19 @@ class UserRepositoryImpl @Inject constructor(
             .flowOn(Dispatchers.Default)
 
     override suspend fun getAll() {
-            val response = userService.getUsers()
-            if (!response.isSuccessful) {
-                throw ApiError(response.code(), response.message())
-            }
-            val body = response.body() ?: throw ApiError(response.code(), response.message())
-            userDao.insert(body.toUserEntity())
+        val response = userService.getUsers()
+        if (!response.isSuccessful) {
+            throw ApiError(response.code(), response.message())
+        }
+        val body = response.body() ?: throw ApiError(response.code(), response.message())
+        userDao.insert(body.toUserEntity())
+    }
+
+    override suspend fun getUser(id: Long): User {
+        val response = userService.getUserById(id)
+        if (!response.isSuccessful) {
+            throw ApiError(response.code(), response.message())
+        }
+        return response.body() ?: throw ApiError(response.code(), response.message())
     }
 }

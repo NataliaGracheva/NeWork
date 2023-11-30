@@ -16,6 +16,7 @@ import com.example.nework.view.loadCircleCrop
 
 
 class UserPostAdapter(
+    private val ownedByMe: Boolean,
     private val onInteractionListener: OnInteractionListener,
 ) : ListAdapter<Post, UserPostViewHolder>(UserPostDiffCallback()) {
 
@@ -37,7 +38,7 @@ class UserPostAdapter(
 
     override fun onBindViewHolder(holder: UserPostViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.bind(it)
+            holder.bind(it, ownedByMe)
         }
     }
 }
@@ -47,7 +48,7 @@ class UserPostViewHolder(
     private val onInteractionListener: UserPostAdapter.OnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(post: Post) {
+    fun bind(post: Post, ownedByMe: Boolean) {
         binding.apply {
             author.text = post.author
             published.text = post.published
@@ -79,12 +80,12 @@ class UserPostViewHolder(
                 }
             }
 
-            menu.visibility = if (post.ownedByMe) View.VISIBLE else View.INVISIBLE
+            menu.visibility = if (ownedByMe) View.VISIBLE else View.INVISIBLE
 
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
-                    menu.setGroupVisible(R.id.owned, post.ownedByMe)
+                    menu.setGroupVisible(R.id.owned, ownedByMe)
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
                             R.id.remove -> {
@@ -113,6 +114,10 @@ class UserPostViewHolder(
 
             audio.setOnClickListener {
                 onInteractionListener.onPlayAudio(post)
+            }
+
+            like.setOnClickListener {
+                onInteractionListener.onLike(post)
             }
         }
     }

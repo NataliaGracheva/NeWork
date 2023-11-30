@@ -8,4 +8,5 @@ interface UserRepository {
 
     suspend fun getAll()
 
+    suspend fun getUser(id: Long): User
 }

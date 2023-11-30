@@ -21,6 +21,12 @@ interface UserWallDao {
     @Query("DELETE FROM UserPostEntity WHERE id = :id")
     suspend fun removeById(id: Long)
 
+    @Query("UPDATE UserPostEntity SET likedByMe = 1 WHERE id = :id AND likedByMe = 0")
+    suspend fun likeById(id: Long)
+
+    @Query("UPDATE UserPostEntity SET likedByMe = 0 WHERE id = :id AND likedByMe = 1")
+    suspend fun unlikeById(id: Long)
+
     @Query("DELETE FROM UserPostEntity")
     suspend fun deleteAll()
 }
