@@ -13,7 +13,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nework.R
 import com.example.nework.databinding.CardJobBinding
 import com.example.nework.dto.Job
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
+private val Job.startFormatted: String
+    get() {
+        val localDateTime = LocalDateTime.parse(start, DateTimeFormatter.ISO_DATE_TIME)
+        return try {
+            localDateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+        } catch (e: Exception) {
+            start
+        }
+    }
+
+private val Job.finishFormatted: String
+    get() {
+        val localDateTime = LocalDateTime.parse(finish, DateTimeFormatter.ISO_DATE_TIME)
+        return try {
+            localDateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+        } catch (e: Exception) {
+            finish?: "till now"
+        }
+    }
 class JobAdapter(
     private val ownedByMe: Boolean,
     private val onInteractionListener: OnInteractionListener,
@@ -50,9 +71,8 @@ class JobViewHolder(
         binding.apply {
             textViewNameCardJob.text = job.name
             textViewPositionCardJob.text = job.position
-            textViewStartCardJob.text = job.start
-            textViewFinishCardJob.text =
-                job.finish ?: context.getString(R.string.text_job_now)
+            textViewStartCardJob.text = job.startFormatted
+            textViewFinishCardJob.text = job.finishFormatted
             textViewLinkCardJob.visibility =
                 if (job.link == null) GONE else VISIBLE
             textViewLinkCardJob.text = job.link
