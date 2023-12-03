@@ -1,8 +1,6 @@
 package com.example.nework.ui
 
 import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +9,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -25,14 +22,13 @@ import com.example.nework.enums.AttachmentType
 import com.example.nework.enums.EventType
 import com.example.nework.utils.AndroidUtils
 import com.example.nework.view.load
+import com.example.nework.view.pickDate
+import com.example.nework.view.pickTime
 import com.example.nework.viewmodel.EventViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -149,11 +145,15 @@ class NewEventFragment : Fragment() {
         }
 
         binding.eventDate.setOnClickListener {
-            pickDate(it as EditText?)
+            context?.let {
+                binding.eventDate.pickDate(it)
+            }
         }
 
         binding.eventTime.setOnClickListener {
-            pickTime(it as EditText?)
+            context?.let {
+                binding.eventTime.pickTime(it)
+            }
         }
 
         requireActivity().addMenuProvider(object : MenuProvider {
@@ -195,51 +195,6 @@ class NewEventFragment : Fragment() {
         }, viewLifecycleOwner)
 
         return binding.root
-    }
-
-    private fun pickDate(editText: EditText?) {
-        val calendar = Calendar.getInstance()
-        val datePicker = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            calendar[Calendar.YEAR] = year
-            calendar[Calendar.MONTH] = monthOfYear
-            calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
-
-            editText?.setText(
-                SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
-                    .format(calendar.time)
-            )
-        }
-
-        DatePickerDialog(
-            requireContext(),
-            datePicker,
-            calendar[Calendar.YEAR],
-            calendar[Calendar.MONTH],
-            calendar[Calendar.DAY_OF_MONTH]
-        )
-            .show()
-    }
-
-    private fun pickTime(editText: EditText?) {
-        val calendar = Calendar.getInstance()
-        val timePicker = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-            calendar[Calendar.HOUR_OF_DAY] = hourOfDay
-            calendar[Calendar.MINUTE] = minute
-
-            editText?.setText(
-                SimpleDateFormat("HH:mm", Locale.ROOT)
-                    .format(calendar.time)
-            )
-        }
-
-        TimePickerDialog(
-            requireContext(),
-            timePicker,
-            calendar[Calendar.HOUR_OF_DAY],
-            calendar[Calendar.MINUTE],
-            true
-        )
-            .show()
     }
 
     override fun onDestroyView() {

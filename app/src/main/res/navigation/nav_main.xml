@@ -64,9 +64,9 @@
         android:label="fragment_new_event"
         tools:layout="@layout/fragment_new_event" />
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.nework.ui.ProfileFragment"
-        android:label="fragment_profile"
+        android:id="@+id/myProfileFragment"
+        android:name="com.example.nework.ui.MyProfileFragment"
+        android:label="fragment_my_profile"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_wallFragment_to_newPostFragment"
@@ -79,6 +79,11 @@
             android:id="@+id/action_jobsFragment_to_newJobFragment"
             app:destination="@id/newJobFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.nework.ui.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/wallFragment"
         android:name="com.example.nework.ui.WallFragment"
@@ -95,5 +100,10 @@
         android:name="com.example.nework.ui.NewJobFragment"
         android:label="fragment_new_job"
         tools:layout="@layout/fragment_new_job" />
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="com.example.nework.ui.UserListFragment"
+        android:label="fragment_user_list"
+        tools:layout="@layout/fragment_users" />
 
 </navigation>

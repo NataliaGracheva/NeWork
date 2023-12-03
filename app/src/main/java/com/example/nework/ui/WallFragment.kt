@@ -17,6 +17,7 @@ import com.example.nework.adapter.UserPostAdapter
 import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.FragmentPostsBinding
 import com.example.nework.dto.Post
+import com.example.nework.enums.AttachmentType
 import com.example.nework.ui.NewPostFragment.Companion.textArg
 import com.example.nework.viewmodel.PostViewModel
 import com.example.nework.viewmodel.WallViewModel
@@ -43,35 +44,16 @@ class WallFragment : Fragment() {
         val ownedByMe = auth.authStateFlow.value.id == id
 
         val adapter = UserPostAdapter(ownedByMe, object : UserPostAdapter.OnInteractionListener {
-            override fun onImageClick(post: Post) {
+            override fun onAttachmentClick(post: Post) {
                 try {
                     val uri = Uri.parse(post.attachment?.url)
                     val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setDataAndType(uri, "image/*")
-                    startActivity(intent)
-                } catch (e: Exception) {
-                    Toast.makeText(context, R.string.error_loading, Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-
-            override fun onPlayVideo(post: Post) {
-                try {
-                    val uri = Uri.parse(post.attachment?.url)
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setDataAndType(uri, "video/*")
-                    startActivity(intent)
-                } catch (e: Exception) {
-                    Toast.makeText(context, R.string.error_loading, Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-
-            override fun onPlayAudio(post: Post) {
-                try {
-                    val uri = Uri.parse(post.attachment?.url)
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setDataAndType(uri, "audio/*")
+                    when (post.attachment?.type) {
+                        AttachmentType.IMAGE -> intent.setDataAndType(uri, "image/*")
+                        AttachmentType.VIDEO -> intent.setDataAndType(uri, "video/*")
+                        AttachmentType.AUDIO -> intent.setDataAndType(uri, "audio/*")
+                        else -> throw Exception("Bad attachment type")
+                    }
                     startActivity(intent)
                 } catch (e: Exception) {
                     Toast.makeText(context, R.string.error_loading, Toast.LENGTH_SHORT)
@@ -92,8 +74,17 @@ class WallFragment : Fragment() {
 
             override fun onLike(post: Post) {
                 if (auth.authStateFlow.value.id != 0L) {
-                    if (!post.likedByMe) viewModel.likeById(post.id)
-                    else viewModel.unlikeById(post.id)
+                    if (ownedByMe) {
+                        if (post.likeOwnerIds.isNotEmpty()) {
+                            findNavController().navigate(R.id.userListFragment,
+                                Bundle().apply {
+                                    putLongArray("userIds", post.likeOwnerIds.toLongArray())
+                                })
+                        }
+                    } else {
+                        if (!post.likedByMe) viewModel.likeById(post.id)
+                        else viewModel.unlikeById(post.id)
+                    }
                 } else {
                     findNavController().navigate(R.id.signInFragment)
                 }

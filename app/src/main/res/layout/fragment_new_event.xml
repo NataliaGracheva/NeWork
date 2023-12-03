@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_spacing"
-                android:hint="Date (YYYY-MM-DD)"
+                android:hint="@string/set_date"
                 android:inputType="date"
                 android:padding="@dimen/common_spacing">
 
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_spacing"
-                android:hint="Time (HH:mm)"
+                android:hint="@string/set_time"
                 android:inputType="time"
                 android:padding="@dimen/common_spacing">
 
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:contentDescription="@string/description_event_attachment" />
+                    android:contentDescription="@string/description_attachment" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/new_event_remove_attachment"

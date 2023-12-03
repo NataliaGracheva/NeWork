@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.nework.R
 import com.example.nework.auth.AppAuth
 import com.example.nework.viewmodel.AuthViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,8 +31,6 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             invalidateOptionsMenu()
         }
 
-//        requestNotificationsPermission()
-
         addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_main, menu)
@@ -36,7 +38,6 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                 menu.let {
                     it.setGroupVisible(R.id.unauthenticated, !viewModel.authenticated)
                     it.setGroupVisible(R.id.authenticated, viewModel.authenticated)
-                    it.setGroupVisible(R.id.all, true)
                 }
             }
 
@@ -58,66 +59,36 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                         true
                     }
 
-                    R.id.posts -> {
-                        findNavController(R.id.nav_host_fragment).navigate(R.id.postsFragment)
-                        true
-                    }
-
-                    R.id.users -> {
-                        findNavController(R.id.nav_host_fragment).navigate(R.id.usersFragment)
-                        true
-                    }
-
-                    R.id.events -> {
-                        findNavController(R.id.nav_host_fragment).navigate(R.id.eventsFragment)
-                        true
-                    }
-
-                    R.id.profile -> {
-                        if (viewModel.authenticated) {
-                            findNavController(R.id.nav_host_fragment).navigate(R.id.profileFragment,
-                                Bundle().apply {
-                                    putLong("id", auth.authStateFlow.value.id)
-                                })
-                        }
-                        true
-                    }
-
                     else -> false
                 }
         })
 
-        // todo - разобраться, почему переключение не работает
-//        NavigationBarView.OnItemReselectedListener { item ->
-//            when(item.itemId) {
-//                R.id.nav_posts -> {
-//                    findNavController(R.id.nav_host_fragment).navigate(R.id.postsFragment)
-//                    Log.d("posts", "posts")
-//                    true
-//                }
-//                R.id.nav_users -> {
-//                    findNavController(R.id.nav_host_fragment).navigate(R.id.usersFragment)
-//                    Log.d("users", "users")
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        navView.setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.postsFragment, R.id.eventsFragment, R.id.usersFragment -> {
+                    navView.visibility = View.VISIBLE
+                }
+
+                R.id.myProfileFragment -> {
+                    if (!viewModel.authenticated) {
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.signInFragment)
+                    } else {
+                        navView.visibility = View.VISIBLE
+                    }
+                }
+
+                else -> {
+                    navView.visibility = View.GONE
+                }
+            }
+        }
 
     }
 
-//    private fun requestNotificationsPermission() {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-//            return
-//        }
-//
-//        val permission = Manifest.permission.POST_NOTIFICATIONS
-//
-//        if (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
-//            return
-//        }
-//
-//        requestPermissions(arrayOf(permission), 1)
-//    }
 }

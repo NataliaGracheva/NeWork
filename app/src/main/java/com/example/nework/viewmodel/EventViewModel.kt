@@ -1,8 +1,6 @@
 package com.example.nework.viewmodel
 
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +16,7 @@ import com.example.nework.enums.EventType
 import com.example.nework.model.MediaModel
 import com.example.nework.model.StateModel
 import com.example.nework.repository.EventRepository
+import com.example.nework.utils.Helper
 import com.example.nework.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,10 +24,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 private val empty = Event(
@@ -99,12 +94,8 @@ class EventViewModel @Inject constructor(
         edited.value = edited.value?.copy(content = text)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun changeDatetime(date: String, time: String) {
-        val parsedDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE)
-        val parsedTime = LocalTime.parse(time, DateTimeFormatter.ISO_TIME)
-        val datetime = LocalDateTime.of(parsedDate, parsedTime)
-            .format(DateTimeFormatter.ISO_DATE_TIME)
+        val datetime = Helper.getDatetime(date, time)
         if (edited.value?.datetime == datetime) {
             return
         }

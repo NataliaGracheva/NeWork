@@ -81,45 +81,37 @@
             tools:text="@sample/posts.json/data/content" />
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/attachment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_spacing"
-            android:contentDescription="@string/description_photo"
+            android:contentDescription="@string/description_attachment"
             android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/content"
             tools:srcCompat="@sample/posts.json/data/authorAvatar"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
         <ImageView
-            android:id="@+id/video"
-            android:layout_width="match_parent"
+            android:id="@+id/play_video"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_spacing"
-            android:contentDescription="@string/description_video"
+            android:src="@drawable/baseline_play_circle_24"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image"
-            tools:srcCompat="@sample/posts.json/data/authorAvatar" />
-
-        <ImageView
-            android:id="@+id/audio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_spacing"
-            android:contentDescription="@string/description_video"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/video"
-            tools:srcCompat="@sample/posts.json/data/authorAvatar" />
+            app:layout_constraintBottom_toBottomOf="@id/attachment"
+            app:layout_constraintEnd_toEndOf="@id/attachment"
+            app:layout_constraintStart_toStartOf="@id/attachment"
+            app:layout_constraintTop_toTopOf="@id/attachment"
+            tools:visibility="visible"
+            android:importantForAccessibility="no" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/footer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="audio" />
+            app:constraint_referenced_ids="attachment" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/like"
@@ -134,15 +126,5 @@
             tools:checked="@sample/posts.json/data/likedByMe"
             tools:text="@sample/posts.json/data/likes" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/share"
-            style="@style/Widget.AppTheme.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/common_spacing"
-            android:contentDescription="@string/description_post_share"
-            app:icon="@drawable/ic_share_24dp"
-            app:layout_constraintStart_toEndOf="@+id/like"
-            app:layout_constraintTop_toBottomOf="@id/footer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

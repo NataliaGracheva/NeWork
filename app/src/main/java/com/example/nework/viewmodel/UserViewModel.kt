@@ -30,6 +30,10 @@ class UserViewModel @Inject constructor(
     val user: LiveData<User>
         get() = _user
 
+    private val _users = MutableLiveData<List<User>>()
+    val users: LiveData<List<User>>
+        get() = _users
+
     init {
         getUsers()
     }
@@ -48,6 +52,20 @@ class UserViewModel @Inject constructor(
         _dataState.postValue(StateModel(loading = true))
         try {
             _user.value = userRepository.getUser(id)
+            _dataState.postValue(StateModel())
+        } catch (e: Exception) {
+            _dataState.value = StateModel(error = true)
+        }
+    }
+
+    fun getUsers(userIds: Set<Long>) = viewModelScope.launch {
+        _dataState.postValue(StateModel(loading = true))
+        try {
+            val list: MutableList<User>  = emptyList<User>().toMutableList()
+            for (id in userIds) launch {
+                list.add(userRepository.getUser(id))
+            }.join()
+            _users.value = list
             _dataState.postValue(StateModel())
         } catch (e: Exception) {
             _dataState.value = StateModel(error = true)

@@ -20,12 +20,11 @@ import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.FragmentEventsBinding
 import com.example.nework.dto.Event
 import com.example.nework.enums.AttachmentType
+import com.example.nework.utils.Helper
 import com.example.nework.viewmodel.EventViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -62,20 +61,30 @@ class EventsFragment : Fragment() {
             override fun onEdit(event: Event) {
                 viewModel.edit(event)
                 event.attachment?.let {
-                    viewModel.changeMedia(Uri.parse(it.url), null, it.type) }
+                    viewModel.changeMedia(Uri.parse(it.url), null, it.type)
+                }
                 findNavController().navigate(
                     R.id.action_eventsFragment_to_newEventFragment,
                     Bundle().apply {
-                        putString("date", getDate(event.datetime))
-                        putString("time", getTime(event.datetime))
+                        putString("date", Helper.getDate(event.datetime))
+                        putString("time", Helper.getTime(event.datetime))
                         putString("content", event.content)
                     })
             }
 
             override fun onLike(event: Event) {
                 if (auth.authStateFlow.value.id != 0L) {
-                    if (!event.likedByMe) viewModel.likeById(event.id)
-                    else viewModel.unlikeById(event.id)
+                    if (event.ownedByMe) {
+                        if (event.likeOwnerIds.isNotEmpty()) {
+                            findNavController().navigate(R.id.userListFragment,
+                                Bundle().apply {
+                                    putLongArray("userIds", event.likeOwnerIds.toLongArray())
+                                })
+                        }
+                    } else {
+                        if (!event.likedByMe) viewModel.likeById(event.id)
+                        else viewModel.unlikeById(event.id)
+                    }
                 } else {
                     findNavController().navigate(R.id.signInFragment)
                 }
@@ -83,23 +92,20 @@ class EventsFragment : Fragment() {
 
             override fun onParticipate(event: Event) {
                 if (auth.authStateFlow.value.id != 0L) {
-                    if (!event.participatedByMe) viewModel.participateById(event.id)
-                    else viewModel.doNotParticipateById(event.id)
+                    if (event.ownedByMe) {
+                        if (event.participantsIds.isNotEmpty()) {
+                            findNavController().navigate(R.id.userListFragment,
+                                Bundle().apply {
+                                    putLongArray("userIds", event.participantsIds.toLongArray())
+                                })
+                        }
+                    } else {
+                        if (!event.participatedByMe) viewModel.participateById(event.id)
+                        else viewModel.doNotParticipateById(event.id)
+                    }
                 } else {
                     findNavController().navigate(R.id.signInFragment)
                 }
-            }
-
-            override fun onOpenLikers(event: Event) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onOpenParticipants(event: Event) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onOpenSpeakers(event: Event) {
-                TODO("Not yet implemented")
             }
 
             override fun onRemove(event: Event) {
@@ -107,13 +113,14 @@ class EventsFragment : Fragment() {
             }
 
             override fun onAvatarClick(event: Event) {
-                findNavController().navigate(
-                    R.id.profileFragment,
-                    Bundle().apply {
-                        putLong("id", event.authorId)
-                        putString("avatar", event.authorAvatar)
-                        putString("name", event.author)
-                    })
+                if (auth.authStateFlow.value.id == event.authorId) {
+                    findNavController().navigate(R.id.myProfileFragment)
+                } else {
+                    findNavController().navigate(R.id.userProfileFragment,
+                        Bundle().apply {
+                            putLong("id", event.authorId)
+                        })
+                }
             }
         })
 
@@ -147,13 +154,4 @@ class EventsFragment : Fragment() {
         return binding.root
     }
 
-    private fun getDate(datetime: String): String {
-        val localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ISO_DATE_TIME)
-        return localDateTime.format(DateTimeFormatter.ISO_DATE)
-    }
-
-    private fun getTime(datetime: String): String {
-        val localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ISO_DATE_TIME)
-        return localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-    }
 }

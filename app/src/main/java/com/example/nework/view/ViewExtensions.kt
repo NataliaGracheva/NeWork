@@ -1,6 +1,7 @@
 package com.example.nework.view
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.net.Uri
 import android.widget.ImageView
@@ -63,6 +64,28 @@ fun TextInputEditText.pickDate(context: Context) {
         calendar[Calendar.YEAR],
         calendar[Calendar.MONTH],
         calendar[Calendar.DAY_OF_MONTH]
+    )
+        .show()
+}
+
+fun TextInputEditText.pickTime(context: Context) {
+    val calendar = Calendar.getInstance()
+    val timePicker = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+        calendar[Calendar.HOUR_OF_DAY] = hourOfDay
+        calendar[Calendar.MINUTE] = minute
+
+        this.setText(
+            SimpleDateFormat("HH:mm", Locale.ROOT)
+                .format(calendar.time)
+        )
+    }
+
+    TimePickerDialog(
+        context,
+        timePicker,
+        calendar[Calendar.HOUR_OF_DAY],
+        calendar[Calendar.MINUTE],
+        true
     )
         .show()
 }

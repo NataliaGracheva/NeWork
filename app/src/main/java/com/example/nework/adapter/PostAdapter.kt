@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nework.R
 import com.example.nework.databinding.CardPostBinding
 import com.example.nework.dto.Post
+import com.example.nework.dto.publishedFormatted
 import com.example.nework.enums.AttachmentType
 import com.example.nework.view.load
 import com.example.nework.view.loadCircleCrop
@@ -20,9 +21,7 @@ class PostAdapter(
 ) : PagingDataAdapter<Post, PostViewHolder>(PostDiffCallback()) {
 
     interface OnInteractionListener {
-        fun onImageClick(post: Post) {}
-        fun onPlayVideo(post: Post) {}
-        fun onPlayAudio(post: Post) {}
+        fun onAttachmentClick(post: Post) {}
         fun onEdit(post: Post) {}
         fun onRemove(post: Post) {}
         fun onLike(post: Post) {}
@@ -52,32 +51,39 @@ class PostViewHolder(
     fun bind(post: Post) {
         binding.apply {
             author.text = post.author
-            published.text = post.published
+            published.text = post.publishedFormatted()
             content.text = post.content
             if (post.authorAvatar != null) avatar.loadCircleCrop(
                 post.authorAvatar,
                 R.drawable.baseline_account_circle_24
             )
             else avatar.setImageResource(R.drawable.baseline_account_circle_24)
+            if (post.ownedByMe) like.isToggleCheckedStateOnClick = false
             like.isChecked = post.likedByMe
             like.text = "${post.likeOwnerIds.size}"
             if (post.attachment != null) {
                 when (post.attachment.type) {
                     AttachmentType.IMAGE -> {
-                        image.load(post.attachment.url, R.drawable.baseline_broken_image_24)
-                        image.visibility = View.VISIBLE
+                        attachment.load(post.attachment.url, R.drawable.baseline_broken_image_24)
+                        attachment.visibility = View.VISIBLE
+                        playVideo.visibility = View.GONE
                     }
 
                     AttachmentType.VIDEO -> {
-                        video.load(post.attachment.url, R.drawable.baseline_video_file)
-                        video.visibility = View.VISIBLE
+                        attachment.load(post.attachment.url, R.drawable.baseline_video_file)
+                        attachment.visibility = View.VISIBLE
+                        playVideo.visibility = View.VISIBLE
                     }
 
                     AttachmentType.AUDIO -> {
-                        audio.setImageResource(R.drawable.baseline_audio_file)
-                        audio.visibility = View.VISIBLE
+                        attachment.setImageResource(R.drawable.baseline_audio_file)
+                        attachment.visibility = View.VISIBLE
+                        playVideo.visibility = View.GONE
                     }
                 }
+            } else {
+                attachment.visibility = View.GONE
+                playVideo.visibility = View.GONE
             }
 
             menu.visibility = if (post.ownedByMe) View.VISIBLE else View.INVISIBLE
@@ -108,16 +114,8 @@ class PostViewHolder(
                 onInteractionListener.onLike(post)
             }
 
-            image.setOnClickListener {
-                onInteractionListener.onImageClick(post)
-            }
-
-            video.setOnClickListener {
-                onInteractionListener.onPlayVideo(post)
-            }
-
-            audio.setOnClickListener {
-                onInteractionListener.onPlayAudio(post)
+            attachment.setOnClickListener {
+                onInteractionListener.onAttachmentClick(post)
             }
 
             avatar.setOnClickListener {

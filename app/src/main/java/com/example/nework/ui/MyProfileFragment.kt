@@ -8,17 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.nework.R
 import com.example.nework.adapter.ProfileAdapter
+import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.FragmentProfileBinding
 import com.example.nework.view.loadCircleCrop
 import com.example.nework.viewmodel.UserViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class ProfileFragment : Fragment() {
-
+class MyProfileFragment : Fragment() {
+    @Inject
+    lateinit var auth: AppAuth
     private val userViewModel by activityViewModels<UserViewModel>()
 
     private val profileTitles = arrayOf(
@@ -39,9 +42,12 @@ class ProfileFragment : Fragment() {
 
         val viewPagerProfile = binding.viewPagerFragmentProfile
         val tabLayoutProfile = binding.tabLayoutFragmentProfile
-        val id = arguments?.getLong("id")
+        val id = auth.authStateFlow.value.id
         if (id != null) {
             userViewModel.getUser(id)
+        }
+        arguments = Bundle().apply {
+            putLong("id", id)
         }
 
         viewPagerProfile.adapter = ProfileAdapter(this)

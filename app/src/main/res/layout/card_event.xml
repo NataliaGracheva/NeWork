@@ -21,7 +21,7 @@
             android:layout_height="@dimen/avatar_size"
             android:layout_centerInParent="true"
             android:layout_marginBottom="@dimen/common_spacing"
-            android:contentDescription="@string/description_event_author_avatar"
+            android:contentDescription="@string/description_author_avatar"
             app:layout_constraintBottom_toBottomOf="@id/event_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -76,11 +76,11 @@
 
         <TextView
             android:id="@+id/datetime"
-            style="@color/colorPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
             android:layout_marginTop="@dimen/common_spacing"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/event_header"
@@ -102,9 +102,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autoLink="web"
+            android:lineSpacingMultiplier="1.5"
             android:paddingTop="@dimen/common_spacing"
             android:paddingBottom="@dimen/common_spacing"
-            android:lineSpacingMultiplier="1.5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/type"
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_spacing"
             android:adjustViewBounds="true"
-            android:contentDescription="@string/description_event_attachment"
+            android:contentDescription="@string/description_attachment"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +126,18 @@
             tools:srcCompat="@sample/posts.json/data/authorAvatar"
             tools:visibility="visible" />
 
-
+        <ImageView
+            android:id="@+id/play_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_play_circle_24"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/event_attachment"
+            app:layout_constraintEnd_toEndOf="@id/event_attachment"
+            app:layout_constraintStart_toStartOf="@id/event_attachment"
+            app:layout_constraintTop_toTopOf="@id/event_attachment"
+            tools:visibility="visible"
+            android:importantForAccessibility="no" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/event_footer"
@@ -154,13 +165,13 @@
             style="@style/Widget.AppTheme.ParticipateCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkable="true"
             android:layout_marginStart="@dimen/common_spacing"
+            android:checkable="true"
             android:contentDescription="@string/description_event_participate"
             app:icon="@drawable/baseline_group_24"
             app:layout_constraintStart_toEndOf="@+id/event_like"
             app:layout_constraintTop_toBottomOf="@id/event_footer"
-            tools:text="@sample/posts.json/data/likes"/>
+            tools:text="@sample/posts.json/data/likes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -40,6 +40,17 @@ private val Event.publishedFormatted: String
         }
     }
 
+private val Event.datetimeFormatted: String
+    get() {
+        val localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ISO_DATE_TIME)
+        return try {
+            "${localDateTime.format(DateTimeFormatter.ofPattern("dd.MM"))} at " +
+                    localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+        } catch (e: Exception) {
+            datetime
+        }
+    }
+
 class EventAdapter(
     private val onInteractionListener: OnInteractionListener,
 ) : PagingDataAdapter<Event, EventViewHolder>(EventDiffCallback()) {
@@ -49,9 +60,6 @@ class EventAdapter(
         fun onRemove(event: Event)
         fun onLike(event: Event)
         fun onParticipate(event: Event)
-        fun onOpenLikers(event: Event)
-        fun onOpenParticipants(event: Event)
-        fun onOpenSpeakers(event: Event)
         fun onAttachmentClick(event: Event)
         fun onAvatarClick(event: Event) {
         }
@@ -87,8 +95,12 @@ class EventViewHolder(
             eventAuthor.text = event.author
             eventPublished.text = event.publishedFormatted
             eventContent.text = event.content
-            datetime.text = event.datetime
-//            checkboxSpeakersSumCardEvent.text = event.speakerIds.count().toString()
+            datetime.text = event.datetimeFormatted
+            type.text = event.type.name
+            if (event.ownedByMe) {
+                eventLike.isToggleCheckedStateOnClick = false
+                eventParticipate.isToggleCheckedStateOnClick = false
+            }
             eventLike.isChecked = event.likedByMe
             eventLike.text = "${event.likeOwnerIds.size}"
             eventParticipate.isChecked = event.participatedByMe
@@ -102,18 +114,24 @@ class EventViewHolder(
                             R.drawable.baseline_broken_image_24
                         )
                         eventAttachment.visibility = View.VISIBLE
+                        playVideo.visibility = View.GONE
                     }
 
                     AttachmentType.VIDEO -> {
                         eventAttachment.load(event.attachment.url, R.drawable.baseline_video_file)
                         eventAttachment.visibility = View.VISIBLE
+                        playVideo.visibility = View.VISIBLE
                     }
 
                     AttachmentType.AUDIO -> {
                         eventAttachment.setImageResource(R.drawable.baseline_audio_file)
                         eventAttachment.visibility = View.VISIBLE
+                        playVideo.visibility = View.GONE
                     }
                 }
+            } else {
+                eventAttachment.visibility = View.GONE
+                playVideo.visibility = View.GONE
             }
 
             eventMenu.isVisible = event.ownedByMe
@@ -154,7 +172,6 @@ class EventViewHolder(
             eventParticipate.setOnClickListener {
                 onInteractionListener.onParticipate(event)
             }
-
 
         }
     }
