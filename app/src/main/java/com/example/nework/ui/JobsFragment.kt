@@ -64,7 +64,7 @@ class JobsFragment : Fragment() {
 
             })
 
-        binding.recyclerViewContainerFragmentJobs.adapter = adapter
+        binding.jobsList.adapter = adapter
 
         lifecycleScope.launchWhenCreated {
             if (id != null) {
@@ -74,12 +74,12 @@ class JobsFragment : Fragment() {
 
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-            binding.textViewEmptyTextFragmentJobs.isVisible = it.isEmpty()
+            binding.jobsEmptyText.isVisible = it.isEmpty()
         }
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
-            binding.progressBarFragmentJobs.isVisible = state.loading
-            binding.swipeRefreshFragmentJobs.isRefreshing = state.refreshing
+            binding.jobsProgress.isVisible = state.loading
+            binding.jobsSwiperefresh.isRefreshing = state.refreshing
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
                     .setAction(R.string.retry_loading) {
@@ -91,7 +91,7 @@ class JobsFragment : Fragment() {
             }
         }
 
-        binding.swipeRefreshFragmentJobs.setOnRefreshListener {
+        binding.jobsSwiperefresh.setOnRefreshListener {
             if (id != null) {
                 viewModel.loadJobs(id)
             }

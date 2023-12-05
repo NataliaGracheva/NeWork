@@ -101,6 +101,7 @@ class NewJobFragment : Fragment() {
                                 ).show()
                                 return@let
                             }
+                            menuItem.isEnabled = false
                             viewModel.changeJob(
                                 Job(
                                     0,

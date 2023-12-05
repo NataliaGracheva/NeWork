@@ -55,6 +55,7 @@
     <string name="description_event_like">Like event</string>
     <string name="description_event_participate">Take part</string>
     <string name="description_pick_video">Select video</string>
+    <string name="description_pick_audio">Select audio</string>
     <string name="enter_datetime">Enter datetime</string>
     <string name="offline">Offline</string>
     <string name="online">Online</string>

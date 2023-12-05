@@ -47,7 +47,7 @@ class UsersFragment : Fragment() {
                 }
             }
         })
-        binding.fragmentListUsers.adapter = adapter
+        binding.usersList.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner)
         {
@@ -62,7 +62,7 @@ class UsersFragment : Fragment() {
                         .show()
                 }
             }
-            binding.progressBarFragmentUsers.isVisible = it.loading
+            binding.usersProgress.isVisible = it.loading
         }
         return binding.root
     }

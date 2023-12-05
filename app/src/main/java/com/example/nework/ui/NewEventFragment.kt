@@ -52,10 +52,10 @@ class NewEventFragment : Fragment() {
         fragmentBinding = binding
 
         arguments?.getString("date")
-            ?.let(binding.eventDate::setText)
+            ?.let(binding.newEventDate::setText)
 
         arguments?.getString("time")
-            ?.let(binding.eventTime::setText)
+            ?.let(binding.newEventTime::setText)
 
         arguments?.getString("content")
             ?.let(binding.newEventEdit::setText)
@@ -119,6 +119,10 @@ class NewEventFragment : Fragment() {
             mediaLauncher.launch("video/*")
         }
 
+        binding.newEventPickAudio.setOnClickListener {
+            mediaLauncher.launch("audio/*")
+        }
+
         binding.newEventRemoveAttachment.setOnClickListener {
             viewModel.changeMedia(null, null, null)
         }
@@ -144,15 +148,15 @@ class NewEventFragment : Fragment() {
             }
         }
 
-        binding.eventDate.setOnClickListener {
+        binding.newEventDate.setOnClickListener {
             context?.let {
-                binding.eventDate.pickDate(it)
+                binding.newEventDate.pickDate(it)
             }
         }
 
-        binding.eventTime.setOnClickListener {
+        binding.newEventTime.setOnClickListener {
             context?.let {
-                binding.eventTime.pickTime(it)
+                binding.newEventTime.pickTime(it)
             }
         }
 
@@ -166,8 +170,8 @@ class NewEventFragment : Fragment() {
                 when (menuItem.itemId) {
                     R.id.save -> {
                         fragmentBinding?.let {
-                            if (it.eventDate.text.isNullOrBlank() ||
-                                it.eventTime.text.isNullOrBlank() ||
+                            if (it.newEventDate.text.isNullOrBlank() ||
+                                it.newEventTime.text.isNullOrBlank() ||
                                 it.newEventEdit.text.isNullOrBlank()
                             ) {
                                 Toast.makeText(
@@ -178,11 +182,12 @@ class NewEventFragment : Fragment() {
                                     .show()
                                 return@let
                             }
+                            menuItem.isEnabled = false
                             viewModel.changeDatetime(
-                                it.eventDate.text.toString(),
-                                it.eventTime.text.toString()
+                                it.newEventDate.text.toString(),
+                                it.newEventTime.text.toString()
                             )
-                            viewModel.changeType(getEventType(it.eventRadioGroup.checkedRadioButtonId))
+                            viewModel.changeType(getEventType(it.newEventType.checkedRadioButtonId))
                             viewModel.changeContent(it.newEventEdit.text.toString())
                             viewModel.save()
                             AndroidUtils.hideKeyboard(requireView())

@@ -70,7 +70,7 @@ class PostViewHolder(
                     }
 
                     AttachmentType.VIDEO -> {
-                        attachment.load(post.attachment.url, R.drawable.baseline_video_file)
+                        attachment.load(post.attachment.url, R.drawable.baseline_broken_image_24)
                         attachment.visibility = View.VISIBLE
                         playVideo.visibility = View.VISIBLE
                     }

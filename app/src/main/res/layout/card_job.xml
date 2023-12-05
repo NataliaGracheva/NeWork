@@ -16,7 +16,7 @@
         android:layout_margin="@dimen/common_spacing">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_menu_card_job"
+            android:id="@+id/job_menu"
             style="@style/Widget.AppTheme.IconButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_view_name_text_card_job"
+            android:id="@+id/job_name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
@@ -39,94 +39,94 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_view_name_card_job"
+            android:id="@+id/job_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
             android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/text_view_name_text_card_job"
-            app:layout_constraintStart_toEndOf="@+id/text_view_name_text_card_job"
+            app:layout_constraintBaseline_toBaselineOf="@+id/job_name_label"
+            app:layout_constraintStart_toEndOf="@+id/job_name_label"
             tools:text="Netology" />
 
         <TextView
-            android:id="@+id/text_view_position_text_card_job"
+            android:id="@+id/job_position_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_spacing"
             android:text="@string/text_job_position"
             android:textAllCaps="false"
-            app:layout_constraintStart_toStartOf="@+id/text_view_name_text_card_job"
-            app:layout_constraintTop_toBottomOf="@id/text_view_name_text_card_job" />
+            app:layout_constraintStart_toStartOf="@+id/job_name_label"
+            app:layout_constraintTop_toBottomOf="@id/job_name_label" />
 
         <TextView
-            android:id="@+id/text_view_position_card_job"
+            android:id="@+id/job_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
             android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/text_view_position_text_card_job"
-            app:layout_constraintStart_toEndOf="@+id/text_view_position_text_card_job"
+            app:layout_constraintBaseline_toBaselineOf="@+id/job_position_label"
+            app:layout_constraintStart_toEndOf="@+id/job_position_label"
             tools:text="Student" />
 
         <TextView
-            android:id="@+id/text_view_start_text_card_job"
+            android:id="@+id/job_start_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_spacing"
             android:text="@string/text_job_start"
             android:textAllCaps="false"
-            app:layout_constraintStart_toStartOf="@+id/text_view_name_text_card_job"
-            app:layout_constraintTop_toBottomOf="@id/text_view_position_text_card_job" />
+            app:layout_constraintStart_toStartOf="@+id/job_name_label"
+            app:layout_constraintTop_toBottomOf="@id/job_position_label" />
 
         <TextView
-            android:id="@+id/text_view_start_card_job"
+            android:id="@+id/job_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
             android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/text_view_start_text_card_job"
-            app:layout_constraintStart_toEndOf="@+id/text_view_start_text_card_job"
+            app:layout_constraintBaseline_toBaselineOf="@+id/job_start_label"
+            app:layout_constraintStart_toEndOf="@+id/job_start_label"
             tools:text="2021-11" />
 
         <TextView
-            android:id="@+id/text_view_finish_text_card_job"
+            android:id="@+id/job_finish_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_spacing"
             android:text="@string/text_job_finish"
             android:textAllCaps="false"
-            app:layout_constraintStart_toStartOf="@+id/text_view_name_text_card_job"
-            app:layout_constraintTop_toBottomOf="@id/text_view_start_text_card_job" />
+            app:layout_constraintStart_toStartOf="@+id/job_name_label"
+            app:layout_constraintTop_toBottomOf="@id/job_start_label" />
 
         <TextView
-            android:id="@+id/text_view_finish_card_job"
+            android:id="@+id/job_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
             android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/text_view_finish_text_card_job"
-            app:layout_constraintStart_toEndOf="@+id/text_view_finish_text_card_job"
+            app:layout_constraintBaseline_toBaselineOf="@+id/job_finish_label"
+            app:layout_constraintStart_toEndOf="@+id/job_finish_label"
             tools:text="2023-03" />
 
         <TextView
-            android:id="@+id/text_view_link_text_card_job"
+            android:id="@+id/job_link_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_spacing"
             android:text="@string/text_job_link"
             android:textAllCaps="false"
-            app:layout_constraintStart_toStartOf="@+id/text_view_name_text_card_job"
-            app:layout_constraintTop_toBottomOf="@id/text_view_finish_text_card_job" />
+            app:layout_constraintStart_toStartOf="@+id/job_name_label"
+            app:layout_constraintTop_toBottomOf="@id/job_finish_label" />
 
         <TextView
-            android:id="@+id/text_view_link_card_job"
+            android:id="@+id/job_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="web"
             android:padding="@dimen/common_spacing"
             android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/text_view_link_text_card_job"
-            app:layout_constraintStart_toEndOf="@+id/text_view_link_text_card_job"
+            app:layout_constraintBaseline_toBaselineOf="@+id/job_link_label"
+            app:layout_constraintStart_toEndOf="@+id/job_link_label"
             tools:text="https://netology.ru" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

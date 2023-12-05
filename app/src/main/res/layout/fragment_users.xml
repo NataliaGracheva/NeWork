@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/progress_bar_fragment_users"
+        android:id="@+id/users_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_list_users"
+        android:id="@+id/users_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"

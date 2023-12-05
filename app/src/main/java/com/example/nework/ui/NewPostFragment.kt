@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -111,6 +112,10 @@ class NewPostFragment : Fragment() {
             mediaLauncher.launch("video/*")
         }
 
+        binding.pickAudio.setOnClickListener {
+            mediaLauncher.launch("audio/*")
+        }
+
         binding.removePhoto.setOnClickListener {
             viewModel.changeMedia(null, null, null)
         }
@@ -125,14 +130,14 @@ class NewPostFragment : Fragment() {
                 return@observe
             }
 
-            if (it.attachmentType == AttachmentType.IMAGE) {
+            if (it.attachmentType == AttachmentType.IMAGE || it.attachmentType == AttachmentType.VIDEO) {
                 binding.photoContainer.visibility = View.VISIBLE
                 binding.photo.load(it.uri, R.drawable.baseline_broken_image_24)
             }
 
-            if (it.attachmentType == AttachmentType.VIDEO) {
+            if (it.attachmentType == AttachmentType.AUDIO) {
                 binding.photoContainer.visibility = View.VISIBLE
-                binding.photo.load(it.uri, R.drawable.baseline_broken_image_24)
+                binding.photo.setImageResource(R.drawable.baseline_audio_file)
             }
         }
 
@@ -145,6 +150,16 @@ class NewPostFragment : Fragment() {
                 when (menuItem.itemId) {
                     R.id.save -> {
                         fragmentBinding?.let {
+                            if (it.edit.text.isNullOrBlank()) {
+                                Toast.makeText(
+                                    context,
+                                    "Text content is required",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                return@let
+                            }
+                            menuItem.isEnabled = false
                             viewModel.changeContent(it.edit.text.toString())
                             viewModel.save()
                             AndroidUtils.hideKeyboard(requireView())

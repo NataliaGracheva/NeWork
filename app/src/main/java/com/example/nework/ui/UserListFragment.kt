@@ -48,7 +48,7 @@ class UserListFragment : Fragment() {
                 }
             }
         })
-        binding.fragmentListUsers.adapter = adapter
+        binding.usersList.adapter = adapter
 
         val userIds: Set<Long> = arguments?.getLongArray("userIds")?.toSet() ?: emptySet()
 
@@ -64,7 +64,7 @@ class UserListFragment : Fragment() {
         }
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
-            binding.progressBarFragmentUsers.isVisible = state.loading
+            binding.usersProgress.isVisible = state.loading
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
                     .show()

@@ -95,9 +95,18 @@
             style="@style/Widget.AppTheme.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/description_take_photo"
+            android:contentDescription="@string/description_pick_video"
             android:padding="@dimen/common_spacing"
             app:icon="@drawable/baseline_video_file_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pickAudio"
+            style="@style/Widget.AppTheme.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/description_pick_audio"
+            android:padding="@dimen/common_spacing"
+            app:icon="@drawable/baseline_audio_file_24" />
     </LinearLayout>
 
 

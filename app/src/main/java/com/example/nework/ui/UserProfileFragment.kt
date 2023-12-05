@@ -37,8 +37,8 @@ class UserProfileFragment : Fragment() {
             false
         )
 
-        val viewPagerProfile = binding.viewPagerFragmentProfile
-        val tabLayoutProfile = binding.tabLayoutFragmentProfile
+        val viewPagerProfile = binding.profileViewPager
+        val tabLayoutProfile = binding.profileTabLayout
         val id = arguments?.getLong("id")
         if (id != null) {
             userViewModel.getUser(id)
@@ -52,14 +52,14 @@ class UserProfileFragment : Fragment() {
 
         userViewModel.user.observe(viewLifecycleOwner) {
             with(binding) {
-                textViewUserNameFragmentProfile.text = it.name.removeSurrounding("\"")
+                profileUserName.text = it.name.removeSurrounding("\"")
                 if (it.avatar != null) {
-                    imageViewUserAvatarFragmentProfile.loadCircleCrop(
+                    profileAvatar.loadCircleCrop(
                         it.avatar,
                         R.drawable.baseline_account_circle_24
                     )
                 } else {
-                    imageViewUserAvatarFragmentProfile.setImageResource(R.drawable.baseline_account_circle_24)
+                    profileAvatar.setImageResource(R.drawable.baseline_account_circle_24)
                 }
             }
         }

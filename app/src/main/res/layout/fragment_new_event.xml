@@ -30,7 +30,7 @@
                 android:padding="@dimen/common_spacing">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/event_date"
+                    android:id="@+id/new_event_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -45,13 +45,13 @@
                 android:padding="@dimen/common_spacing">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/event_time"
+                    android:id="@+id/new_event_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RadioGroup
-                android:id="@+id/eventRadioGroup"
+                android:id="@+id/new_event_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkedButton="@+id/radio_button_online"
@@ -72,7 +72,6 @@
                     android:enabled="false"
                     android:text="@string/offline" />
             </RadioGroup>
-
 
             <EditText
                 android:id="@+id/new_event_edit"
@@ -152,6 +151,14 @@
             android:contentDescription="@string/description_pick_video"
             android:padding="@dimen/common_spacing"
             app:icon="@drawable/baseline_video_file_24" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/new_event_pick_audio"
+            style="@style/Widget.AppTheme.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/description_pick_audio"
+            android:padding="@dimen/common_spacing"
+            app:icon="@drawable/baseline_audio_file_24" />
     </LinearLayout>
 
 

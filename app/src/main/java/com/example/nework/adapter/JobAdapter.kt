@@ -1,6 +1,5 @@
 package com.example.nework.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -50,7 +49,7 @@ class JobAdapter(
             parent,
             false
         )
-        return JobViewHolder(parent.context, binding, onInteractionListener)
+        return JobViewHolder(binding, onInteractionListener)
     }
 
     override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
@@ -61,7 +60,6 @@ class JobAdapter(
 }
 
 class JobViewHolder(
-    private val context: Context,
     private val binding: CardJobBinding,
     private val onInteractionListener: JobAdapter.OnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -69,17 +67,17 @@ class JobViewHolder(
     fun bind(job: Job, ownedByMe: Boolean) {
 
         binding.apply {
-            textViewNameCardJob.text = job.name
-            textViewPositionCardJob.text = job.position
-            textViewStartCardJob.text = job.startFormatted
-            textViewFinishCardJob.text = job.finishFormatted
-            textViewLinkCardJob.visibility =
+            jobName.text = job.name
+            jobPosition.text = job.position
+            jobStart.text = job.startFormatted
+            jobFinish.text = job.finishFormatted
+            jobLink.visibility =
                 if (job.link == null) GONE else VISIBLE
-            textViewLinkCardJob.text = job.link
+            jobLink.text = job.link
 
-            buttonMenuCardJob.visibility = if (ownedByMe) VISIBLE else View.INVISIBLE
+            jobMenu.visibility = if (ownedByMe) VISIBLE else View.INVISIBLE
 
-            buttonMenuCardJob.setOnClickListener {
+            jobMenu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
                     menu.setGroupVisible(R.id.owned, ownedByMe)

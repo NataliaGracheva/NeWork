@@ -75,7 +75,7 @@
             app:constraint_referenced_ids="event_author_avatar, event_published, event_menu" />
 
         <TextView
-            android:id="@+id/datetime"
+            android:id="@+id/event_datetime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
@@ -87,14 +87,14 @@
             tools:text="@tools:sample/date/ddmmyy" />
 
         <TextView
-            android:id="@+id/type"
+            android:id="@+id/event_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
             android:layout_marginTop="@dimen/common_spacing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/datetime"
+            app:layout_constraintTop_toBottomOf="@id/event_datetime"
             tools:text="ONLINE" />
 
         <TextView
@@ -107,7 +107,7 @@
             android:paddingBottom="@dimen/common_spacing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/type"
+            app:layout_constraintTop_toBottomOf="@id/event_type"
             tools:text="@sample/posts.json/data/content" />
 
         <ImageView

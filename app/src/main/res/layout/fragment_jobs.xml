@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/text_view_empty_text_fragment_jobs"
+            android:id="@+id/jobs_empty_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
-            android:id="@+id/progress_bar_fragment_jobs"
+            android:id="@+id/jobs_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_spacing"
@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_fragment_jobs"
+            android:id="@+id/jobs_swiperefresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_container_fragment_jobs"
+                android:id="@+id/jobs_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

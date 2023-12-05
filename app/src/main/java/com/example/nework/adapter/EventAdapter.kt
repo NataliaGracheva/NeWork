@@ -95,8 +95,8 @@ class EventViewHolder(
             eventAuthor.text = event.author
             eventPublished.text = event.publishedFormatted
             eventContent.text = event.content
-            datetime.text = event.datetimeFormatted
-            type.text = event.type.name
+            eventDatetime.text = event.datetimeFormatted
+            eventType.text = event.type.name
             if (event.ownedByMe) {
                 eventLike.isToggleCheckedStateOnClick = false
                 eventParticipate.isToggleCheckedStateOnClick = false
@@ -118,7 +118,7 @@ class EventViewHolder(
                     }
 
                     AttachmentType.VIDEO -> {
-                        eventAttachment.load(event.attachment.url, R.drawable.baseline_video_file)
+                        eventAttachment.load(event.attachment.url, R.drawable.baseline_broken_image_24)
                         eventAttachment.visibility = View.VISIBLE
                         playVideo.visibility = View.VISIBLE
                     }
